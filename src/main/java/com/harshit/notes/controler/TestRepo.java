@@ -18,13 +18,13 @@ public class TestRepo {
     @Autowired
     NotesRepository repo;
 
-    @GetMapping
-    public List<NotesEntity> test(){
-        NotesEntity n = new NotesEntity("Title");
-        n.setContent("Content");
-        repo.save(n);
-        return repo.findAll();
-    }
+//    @GetMapping
+//    public List<NotesEntity> test(){
+//        NotesEntity n = new NotesEntity("Title");
+//        n.setContent("Content");
+//        repo.save(n);
+//        return repo.findAll();
+//    }
 
 
 }
