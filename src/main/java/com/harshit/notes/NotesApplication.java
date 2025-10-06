@@ -1,4 +1,4 @@
-package com.harshit.notes.notes;
+package com.harshit.notes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
