@@ -23,11 +23,15 @@ public class NotesService {
 
     @Transactional
     public void saveEntry(NotesEntity notesEntity, String userName){
-        UsersEntity user = userService.findByUserName(userName);
-        notesEntity.setDate(LocalDateTime.now());
-        user.getNotesEntities().add(notesEntity);
-        notesRepository.save(notesEntity);
-        userService.saveEntry(user);
+        try{
+            UsersEntity user = userService.findByUserName(userName);
+            notesEntity.setDate(LocalDateTime.now());
+            user.getNotesEntities().add(notesEntity);
+            notesRepository.save(notesEntity);
+            userService.saveUser(user);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while saving the entry",e);
+        }
     }
 
     public void saveEntry(NotesEntity notesEntity){
@@ -42,12 +46,20 @@ public class NotesService {
         return notesRepository.findById(id).orElse(null);
     }
 
+
+    @Transactional
     public boolean deleteById(ObjectId id, String userName){
-        UsersEntity user = userService.findByUserName(userName);
-        user.getNotesEntities().removeIf(t -> t.getId().equals(id));
-        userService.saveEntry(user);
-        notesRepository.deleteById(id);
-        return true;
+        try{
+            UsersEntity user = userService.findByUserName(userName);
+            boolean removed = user.getNotesEntities().removeIf(t -> t.getId().equals(id));
+            if(removed){
+                userService.saveUser(user);
+                notesRepository.deleteById(id);
+            }
+            return removed;
+        } catch (Exception e){
+            throw new RuntimeException("An error occurred while deleting the entry",e);
+        }
     }
 
     public void deleteAll(){
