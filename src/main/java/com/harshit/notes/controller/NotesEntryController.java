@@ -79,7 +79,7 @@ public class NotesEntryController {
         String userName = authentication.getName();
         NotesEntity oldEntry = userService.findNotesEntityOrNull(userName,id);
         if (oldEntry != null) {
-            oldEntry.setTitle(!newEntry.getTitle().trim().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
+            oldEntry.setTitle(newEntry.getTitle() != null &&!newEntry.getTitle().trim().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
             oldEntry.setContent(newEntry.getContent() != null && !newEntry.getContent().trim().isEmpty() ? newEntry.getContent() : oldEntry.getContent());
             notesService.saveEntry(oldEntry);
             return new ResponseEntity<>(oldEntry, HttpStatus.OK);
