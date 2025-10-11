@@ -3,6 +3,7 @@ package com.harshit.notes.services;
 import com.harshit.notes.entity.NotesEntity;
 import com.harshit.notes.entity.UsersEntity;
 import com.harshit.notes.repository.NotesRepository;
+import com.harshit.notes.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,14 @@ public class NotesService {
 
     @Autowired
     private UserService userService;
+
+    public NotesEntity findNotesEntityOrNull(String userName, ObjectId noteId) {
+        UsersEntity user = userService.findByUserName(userName);
+        return user.getNotesEntities().stream()
+                .filter(note -> note.getId().equals(noteId))
+                .findAny()
+                .orElse(null);
+    }
 
     @Transactional
     public void saveEntry(NotesEntity notesEntity, String userName){

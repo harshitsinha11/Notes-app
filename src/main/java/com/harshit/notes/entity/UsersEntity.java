@@ -1,6 +1,7 @@
 package com.harshit.notes.entity;
 
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Document(collection = "Users")
 @Data
+@Builder
 public class UsersEntity {
     @Id
     private ObjectId id;

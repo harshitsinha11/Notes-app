@@ -43,7 +43,7 @@ public class NotesEntryController {
     public ResponseEntity<NotesEntity> getById(@PathVariable ObjectId id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        NotesEntity notesEntity = userService.findNotesEntityOrNull(userName,id);
+        NotesEntity notesEntity = notesService.findNotesEntityOrNull(userName,id);
         if (notesEntity != null) {
             return new ResponseEntity<>(notesEntity, HttpStatus.OK);
         }
@@ -77,7 +77,7 @@ public class NotesEntryController {
     public ResponseEntity<NotesEntity> updateById(@PathVariable ObjectId id, @RequestBody NotesEntity newEntry) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        NotesEntity oldEntry = userService.findNotesEntityOrNull(userName,id);
+        NotesEntity oldEntry = notesService.findNotesEntityOrNull(userName,id);
         if (oldEntry != null) {
             oldEntry.setTitle(newEntry.getTitle() != null &&!newEntry.getTitle().trim().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
             oldEntry.setContent(newEntry.getContent() != null && !newEntry.getContent().trim().isEmpty() ? newEntry.getContent() : oldEntry.getContent());

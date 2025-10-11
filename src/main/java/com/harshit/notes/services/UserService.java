@@ -20,20 +20,35 @@ public class UserService {
 
     public static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public void saveUser(UsersEntity user) {
-        userRepository.save(user);
+    public boolean saveUser(UsersEntity user) {
+        try{
+            userRepository.save(user);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
-    public void saveNewUser(UsersEntity user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user);
+    public boolean saveNewUser(UsersEntity user) {
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public void saveNewAdminUser(UsersEntity user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER", "ADMIN"));
-        userRepository.save(user);
+    public boolean saveNewAdminUser(UsersEntity user) {
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER", "ADMIN"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public List<UsersEntity> getAll() {
@@ -52,11 +67,4 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
-    public NotesEntity findNotesEntityOrNull(String userName, ObjectId noteId) {
-        UsersEntity user = userRepository.findByUserName(userName);
-        return user.getNotesEntities().stream()
-                .filter(note -> note.getId().equals(noteId))
-                .findAny()
-                .orElse(null);
-    }
 }
