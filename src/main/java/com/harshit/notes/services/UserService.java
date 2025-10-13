@@ -1,8 +1,8 @@
 package com.harshit.notes.services;
 
-import com.harshit.notes.entity.NotesEntity;
 import com.harshit.notes.entity.UsersEntity;
 import com.harshit.notes.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Component
 public class UserService {
 
@@ -25,6 +26,7 @@ public class UserService {
             userRepository.save(user);
             return true;
         } catch (Exception e){
+            log.error("Failed to save update user : {}",user.getUserName(),e);
             return false;
         }
     }
@@ -36,6 +38,7 @@ public class UserService {
             userRepository.save(user);
             return true;
         } catch (Exception e) {
+            log.error("Failed  to create new user: {}",user.getUserName(),e);
             return false;
         }
     }
@@ -47,6 +50,7 @@ public class UserService {
             userRepository.save(user);
             return true;
         } catch (Exception e) {
+            log.error("Failed to create new Admin User: {}",user.getUserName(),e);
             return false;
         }
     }
@@ -59,12 +63,24 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public void deleteById(ObjectId id) {
-        userRepository.deleteById(id);
+    public boolean deleteByUserName(String userName) {
+        try{
+            log.info("Deleted User: {}",userName);
+            userRepository.deleteByUserName(userName);
+            return true;
+        } catch (Exception e){
+            log.error("Failed to delete User: {}",userName);
+            return false;
+        }
     }
 
     public UsersEntity findByUserName(String userName) {
-        return userRepository.findByUserName(userName);
+        try{
+            return userRepository.findByUserName(userName);
+        } catch (Exception e) {
+            log.error("Username not found; {}",userName);
+            return null;
+        }
     }
 
 }

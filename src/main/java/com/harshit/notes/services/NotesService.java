@@ -3,7 +3,7 @@ package com.harshit.notes.services;
 import com.harshit.notes.entity.NotesEntity;
 import com.harshit.notes.entity.UsersEntity;
 import com.harshit.notes.repository.NotesRepository;
-import com.harshit.notes.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
+@Slf4j
 @Component
 public class NotesService {
 
@@ -33,12 +34,14 @@ public class NotesService {
     @Transactional
     public void saveEntry(NotesEntity notesEntity, String userName){
         try{
+            log.info("Saving entry for user: {}",userName);
             UsersEntity user = userService.findByUserName(userName);
             notesEntity.setDate(LocalDateTime.now());
             user.getNotesEntities().add(notesEntity);
             notesRepository.save(notesEntity);
             userService.saveUser(user);
         } catch (Exception e) {
+            log.error("Some error occurred in saving user notes : {} \n {}",notesEntity.getContent(),userName);
             throw new RuntimeException("An error occurred while saving the entry",e);
         }
     }
@@ -64,14 +67,15 @@ public class NotesService {
             if(removed){
                 userService.saveUser(user);
                 notesRepository.deleteById(id);
+                log.info("Given entry: {} deleted for user: {}",id,userName);
+            } else {
+                log.warn("Failed to find the entry: {} by the user: {}",id,userName);
             }
             return removed;
         } catch (Exception e){
-            throw new RuntimeException("An error occurred while deleting the entry",e);
+            log.error("Some error occurred in deleting entry: {} for the user: {}",id,userName);
+            return false;
         }
     }
 
-    public void deleteAll(){
-        notesRepository.deleteAll();
-    }
 }

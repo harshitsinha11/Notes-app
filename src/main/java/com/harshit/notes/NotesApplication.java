@@ -22,6 +22,3 @@ public class NotesApplication {
     }
 
 }
-
-//PlatformTransactionManager
-//MongoTransactionManager

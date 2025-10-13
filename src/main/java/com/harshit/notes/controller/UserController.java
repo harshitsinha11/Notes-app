@@ -43,7 +43,7 @@ public class UserController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String userName = authentication.getName();
             UsersEntity user = userService.findByUserName(userName);
-            userService.deleteById(user.getId());
+            userService.deleteByUserName(userName);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e){
             System.out.println("Error occurred in Deleting User" + e);

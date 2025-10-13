@@ -25,6 +25,7 @@ public class UserDetailServiceCustom implements UserDetailsService {
                     .roles(user.getRoles().toArray(new String[0]))
                     .build();
         }
-        throw new UsernameNotFoundException("User not found with username :" + username);
+//        throw new UsernameNotFoundException("User not found with username :" + username);
+        return null;
     }
 }

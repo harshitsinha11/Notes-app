@@ -25,6 +25,6 @@ public class UsersEntity {
     @NonNull
     private String password;
     @DBRef
-    private ArrayList<NotesEntity> notesEntities = new ArrayList<>();
+    private List<NotesEntity> notesEntities = new ArrayList<>();
     private List<String> roles = new ArrayList<>();
 }

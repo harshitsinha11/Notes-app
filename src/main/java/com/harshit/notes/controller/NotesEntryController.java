@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/notes")
@@ -31,7 +32,7 @@ public class NotesEntryController {
         String userName = authentication.getName();
 
         UsersEntity user = userService.findByUserName(userName);
-        ArrayList<NotesEntity> allUserNotes = user.getNotesEntities();
+        List<NotesEntity> allUserNotes = user.getNotesEntities();
         if (allUserNotes != null) {
             return new ResponseEntity<>(allUserNotes, HttpStatus.OK);
         } else {

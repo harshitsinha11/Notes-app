@@ -1,8 +1,6 @@
 package com.harshit.notes.controller;
 
-
 import com.harshit.notes.entity.UsersEntity;
-import com.harshit.notes.repository.UserRepository;
 import com.harshit.notes.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
