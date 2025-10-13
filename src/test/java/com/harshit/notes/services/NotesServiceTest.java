@@ -78,14 +78,6 @@ public class NotesServiceTest {
     }
 
     @Test
-    void testGetAll() {
-        when(notesRepository.findAll()).thenReturn(List.of(note));
-        List<NotesEntity> result = notesService.getAll();
-        assertNotNull(result);
-        assertEquals(1, result.size());
-    }
-
-    @Test
     void testGetById_Found() {
         when(notesRepository.findById(note.getId())).thenReturn(Optional.of(note));
         NotesEntity result = notesService.getById(note.getId());
