@@ -22,40 +22,44 @@ public class UserService {
     public static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public boolean saveUser(UsersEntity user) {
-        try{
+        try {
             userRepository.save(user);
+            log.info("Updated user: {}", user.getUserName());
             return true;
-        } catch (Exception e){
-            log.error("Failed to save update user : {}",user.getUserName(),e);
+        } catch (Exception e) {
+            log.error("Failed to save update user : {}", user.getUserName(), e);
             return false;
         }
     }
 
     public boolean saveNewUser(UsersEntity user) {
-        try{
+        try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
+            log.info("Created new user: {}", user.getUserName());
             return true;
         } catch (Exception e) {
-            log.error("Failed  to create new user: {}",user.getUserName(),e);
+            log.error("Failed  to create new user: {}", user.getUserName(), e);
             return false;
         }
     }
 
     public boolean saveNewAdminUser(UsersEntity user) {
-        try{
+        try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER", "ADMIN"));
             userRepository.save(user);
+            log.info("Created new admin user: {}", user.getUserName());
             return true;
         } catch (Exception e) {
-            log.error("Failed to create new Admin User: {}",user.getUserName(),e);
+            log.error("Failed to create new Admin User: {}", user.getUserName(), e);
             return false;
         }
     }
 
     public List<UsersEntity> getAll() {
+        log.info("Fetching Details of all users");
         return userRepository.findAll();
     }
 
@@ -64,21 +68,21 @@ public class UserService {
     }
 
     public boolean deleteByUserName(String userName) {
-        try{
-            log.info("Deleted User: {}",userName);
+        try {
+            log.info("Deleted User: {}", userName);
             userRepository.deleteByUserName(userName);
             return true;
-        } catch (Exception e){
-            log.error("Failed to delete User: {}",userName);
+        } catch (Exception e) {
+            log.error("Failed to delete User: {}", userName);
             return false;
         }
     }
 
     public UsersEntity findByUserName(String userName) {
-        try{
+        try {
             return userRepository.findByUserName(userName);
         } catch (Exception e) {
-            log.error("Username not found; {}",userName);
+            log.error("Username not found; {}", userName);
             return null;
         }
     }

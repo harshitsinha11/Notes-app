@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 @Slf4j
 @Component
@@ -44,14 +42,6 @@ public class NotesService {
             log.error("Some error occurred in saving user notes : {} \n {}",notesEntity.getContent(),userName);
             throw new RuntimeException("An error occurred while saving the entry",e);
         }
-    }
-
-    public void saveEntry(NotesEntity notesEntity){
-        notesRepository.save(notesEntity);
-    }
-
-    public List<NotesEntity> getAll(){
-        return notesRepository.findAll();
     }
 
     public NotesEntity getById(ObjectId id){

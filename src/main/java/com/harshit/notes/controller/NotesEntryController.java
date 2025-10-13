@@ -82,7 +82,7 @@ public class NotesEntryController {
         if (oldEntry != null) {
             oldEntry.setTitle(newEntry.getTitle() != null &&!newEntry.getTitle().trim().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
             oldEntry.setContent(newEntry.getContent() != null && !newEntry.getContent().trim().isEmpty() ? newEntry.getContent() : oldEntry.getContent());
-            notesService.saveEntry(oldEntry);
+            notesService.saveEntry(oldEntry,userName);
             return new ResponseEntity<>(oldEntry, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

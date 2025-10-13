@@ -78,16 +78,6 @@ public class NotesServiceTest {
     }
 
     @Test
-    void testSaveEntry_WithoutUser() {
-        when(notesRepository.save(note)).thenReturn(note);
-
-        notesService.saveEntry(note);
-
-        verify(notesRepository).save(note);
-        verifyNoInteractions(userService);
-    }
-
-    @Test
     void testGetAll() {
         when(notesRepository.findAll()).thenReturn(List.of(note));
         List<NotesEntity> result = notesService.getAll();
