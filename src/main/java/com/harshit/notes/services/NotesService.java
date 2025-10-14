@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Slf4j
 @Component
@@ -35,11 +36,14 @@ public class NotesService {
             log.info("Saving entry for user: {}",userName);
             UsersEntity user = userService.findByUserName(userName);
             notesEntity.setDate(LocalDateTime.now());
-            user.getNotesEntities().add(notesEntity);
             notesRepository.save(notesEntity);
+            if (user.getNotesEntities() == null) {
+                user.setNotesEntities(new ArrayList<>());
+            }
+            user.getNotesEntities().add(notesEntity);
             userService.saveUser(user);
         } catch (Exception e) {
-            log.error("Some error occurred in saving user notes : {} \n {}",notesEntity.getContent(),userName);
+            log.error("Some error occurred in saving user notes : {} for user: {}",e,userName);
             throw new RuntimeException("An error occurred while saving the entry",e);
         }
     }
