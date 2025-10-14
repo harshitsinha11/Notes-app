@@ -30,7 +30,11 @@ public class UserDetailServiceCustomTest {
 
     @Test
     void loadUserByUsernameTest(){
-        when(userRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(UsersEntity.builder().userName("ram").password("inrinrick").roles(new ArrayList<>()).build());
+        when(userRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(UsersEntity
+                .builder()
+                .userName("ram")
+                .password("password")
+                .roles(new ArrayList<>()).build());
         UserDetails user = userDetailsService.loadUserByUsername("ram");
         Assertions.assertNotNull(user);
     }
